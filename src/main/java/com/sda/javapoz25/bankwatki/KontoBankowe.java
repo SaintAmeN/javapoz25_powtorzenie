@@ -9,6 +9,7 @@ public class KontoBankowe {
     }
 
     public void przelejNaKonto(double kwota) {
+        // sekcja krytyczna to miejsce w kodzie gdzie może dojść do zjawisk błędów asynchronicznych (m. in. zjawiska wyścigów)
         synchronized (klucz) { // synchronized to miejsce do którego może wejść tylko 1 wątek
             stanKonta += kwota;
         }
@@ -20,7 +21,8 @@ public class KontoBankowe {
         }
     }
 
-    public void wypiszStanKonta() {
+    // do metody może wejść tylko jeden wątek
+    public synchronized void wypiszStanKonta() {
         System.out.println("Stan konta wynosi: " + stanKonta);
     }
 }
